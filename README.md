@@ -1,2 +1,6 @@
 # AopEasyTest
 一个基于spring的面向切面编程AOP的小Demo，基本上展现了AOP在项目应用中的作用，便于深刻理解AOP的原理和运行机理。
+第一个项目aopbeta是使用spring 框架以及maven项目进行项目依赖管理，其中 使用了aop编程中的两种方式：方法内注解以及在spring配置文件中配置aop。
+基本上实现了AOP编程中的基本作用，便于理解AOP原理和运行机理，这个小demo参考David老师的讲解。
+第二个项目myaop也是使用spring框架和maven，这个是更为明了的写出了AOP的各种切入点，方法前后，around等等....运行结果更为明白。。
+希望借此项目能更好的认识AOP，认识spring，能在以后的工作中多多的使用框架的优势，来提高生产力！
