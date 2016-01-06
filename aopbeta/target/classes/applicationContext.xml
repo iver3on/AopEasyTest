@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.1.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-3.1.xsd 
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-3.1.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-3.1.xsd ">
+		
+		<!-- 解析jsp，默认支持jstl -->
+		<aop:config proxy-target-class="true"></aop:config>
+		<aop:aspectj-autoproxy/> 
+		<context:annotation-config /> 
+	<!--<bean id="logAspect" class="com.zwb.aop.LogAspect"></bean>
+		<aop:config>
+			<aop:aspect id="logAspects" ref="logAspect">
+				<aop:pointcut expression="execution (boolean com.zwb.service.BookingService.bookFlight())" id="logCut"/>
+				<aop:after-returning method="logBookingStatus" pointcut-ref="logCut"/>
+			</aop:aspect>
+		</aop:config> -->
+		
+		<bean id="mylogaop" class="com.test.aop.aspect.LogAspect"/>
+		<bean id="mytimeaop" class="com.test.aop.aspect.TimeRecordingAspect"/>
+		<bean id="ctripservice" class="com.test.aop.CtripBookingService"/>
+		<bean id="qunarservice" class="com.test.aop.QunarBookingService"/>
+		<bean id="smartboss" class="com.test.aop.SmartBoss">
+			<property name="bookingService" ref="ctripservice"></property>
+		</bean>
+	<aop:config>
+			<aop:aspect ref="mylogaop">
+				<aop:pointcut expression="execution(* com.test.aop..*.bookFlight(..))" id="logcut"/>
+				<aop:after-returning method="logBookingStatus" returning="retVal" pointcut-ref="logcut"/>
+			</aop:aspect>
+			<aop:aspect ref="mytimeaop">
+				<aop:pointcut expression="execution(* com.test.aop..*.bookFlight(..))" id="timecut"/>
+				<aop:around method="recordTime" pointcut-ref="timecut"/>
+			</aop:aspect>
+	</aop:config>
+
+		
+		
+		
+		<!-- <aop:config>  
+        <aop:aspect id="myaop" ref="myInterceptor">  
+            <aop:pointcut id="mycut" expression="execution (* com.dwt1220.PersonServiceBean.*(..))" />  
+            <aop:before pointcut-ref="mycut" method="doAccessCheck" />  
+            <aop:after-returning pointcut-ref="mycut" method="doAfterReturning"/>  
+            <aop:after-throwing pointcut-ref="mycut" method="doAfterThrowing" />  
+            <aop:after pointcut-ref="mycut" method="doAfter"/>  
+            <aop:around pointcut-ref="mycut" method="doBasicProfiling" />  
+        </aop:aspect>  
+    </aop:config>   -->
+		
+</beans>
